@@ -19,3 +19,7 @@ pd_all = pd.read_csv(path + 'waimai_10k.csv')
 print('评论数目（总体）：%d' % pd_all.shape[0])
 print('评论数目（正向）：%d' % pd_all[pd_all.label==1].shape[0])
 print('评论数目（负向）：%d' % pd_all[pd_all.label==0].shape[0])
+
+online_shopping_10_cats
+62k data ,31k pos, 31k neg
+Cat- category label 
