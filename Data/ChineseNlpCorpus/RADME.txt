@@ -1,0 +1,21 @@
+
+ChnSentiCorp_htl_all 
+7000 data from hotel review, 5000 pos, 2000 neg
+Original dataset : ChnSentiCorp_htl
+
+Loading 
+pd_all = pd.read_csv(path + 'ChnSentiCorp_htl_all.csv')
+
+print('评论数目（总体）：%d' % pd_all.shape[0]) #total count 
+print('评论数目（正向）：%d' % pd_all[pd_all.label==1].shape[0]) #count pos
+print('评论数目（负向）：%d' % pd_all[pd_all.label==0].shape[0]) #count neg
+评论数目（总体）：7766 #total count 
+
+waimai_10k 
+12k data from restaurant take out, 4000 pos, 8000 neg
+
+pd_all = pd.read_csv(path + 'waimai_10k.csv')
+
+print('评论数目（总体）：%d' % pd_all.shape[0])
+print('评论数目（正向）：%d' % pd_all[pd_all.label==1].shape[0])
+print('评论数目（负向）：%d' % pd_all[pd_all.label==0].shape[0])
