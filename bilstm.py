@@ -91,4 +91,4 @@ optimizer = optim.Adam(lstm_clf.parameters(), lr=learning_rate)
 """
 Training
 """
-run_training(lstm_clf, optimizer, loss_function, train_loader, val_loader, device, [0, 1], n_epochs=4)
+run_training(lstm_clf, optimizer, loss_function, train_loader, val_loader, device, [0, 1], n_epochs=10)
