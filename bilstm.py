@@ -27,10 +27,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 Datasets
 """
 # DATASET = 'datasetSentences.txt'
-#
 # DATASET = 'Office_Products_5.json.gz'
 # DATASET = 'Movies_and_TV_5.json.gz'
-#
+
 DATASET = 'movies_even_split.csv'
 # DATASET = 'Movies_and_TV_small.csv'
 # DATASET = 'Movies_and_TV_small_mapped.csv'
@@ -42,16 +41,21 @@ dataset_path = os.path.join(language_path, DATASET)
 weights_path = os.path.join(dir_path, 'word2vec-google-news-300.gz')
 
 dataset_df = pd.read_csv(dataset_path)
-# dataset_df = pd.read_json(dataset_path, lines=True)
 
+"""
+Extra Dataset testing code
+"""
+# dataset_df = pd.read_json(dataset_path, lines=True)
 # dataset_df['overall'] = dataset_df['overall'].apply(map_sentiment)
 # sample_group = dataset_df.groupby('overall').sample(n=25000, random_state=1)
 # sample_group[['overall', 'reviewText']].to_csv(os.path.join(language_path, 'movies_even_split.csv'))
 
-
 # model = Word2Vec(sentences=dataset_df['reviewText'], window=5, min_count=1, workers=4)
 # model.save('gensim.model')
-
+""""""""""""""""""""""""""
+"""
+Loading word embeddings
+"""
 word2vec_weights = gensim.models.KeyedVectors.load_word2vec_format(datapath(weights_path), binary=True,
                                                                    unicode_errors='ignore', limit=1000000)
 w2v_sequencer = W2VSequencer(word2vec_weights)

@@ -7,7 +7,7 @@ import math
 
 
 class BiLSTMClassifier(nn.Module):
-    def __init__(self, output_size,rnn_hidden_size=100, dropout_p=0.2, w2v_weights=None):
+    def __init__(self, output_size,rnn_hidden_size=100, dropout_p=0.5, w2v_weights=None):
         super(BiLSTMClassifier, self).__init__()
         self.embedding = nn.Embedding.from_pretrained(w2v_weights, freeze=False)
         embed_dim = 300
@@ -16,7 +16,7 @@ class BiLSTMClassifier(nn.Module):
             hidden_size=rnn_hidden_size,
             bias=True,
             bidirectional=True,
-            num_layers=2
+            num_layers=1
         )
 
         self.dropout = nn.Dropout(dropout_p)
@@ -123,10 +123,8 @@ def evaluate(model, optimizer, loss_function, loader, device, labels, log_every_
 
 def run_training(model, optimizer, loss_function, train_loader, valid_loader, device, labels, n_epochs=10):
     for i in range(n_epochs):
-        loss_history, running_loss_history = train(model, optimizer, loss_function, train_loader, device,
-                                                   log_every_n=10)
-        valid_loss_history, valid_running_loss_history = evaluate(model, optimizer, loss_function, valid_loader,
-                                                                  device, labels, log_every_n=10)
+        train(model, optimizer, loss_function, train_loader, device, log_every_n=10)
+        evaluate(model, optimizer, loss_function, valid_loader, device, labels, log_every_n=10)
 
     torch.save(model,'en_model.pkl')
     torch.save(model.state_dict(), 'en_model_state.pkl')
