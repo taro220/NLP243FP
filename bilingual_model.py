@@ -61,8 +61,8 @@ def evaluate(model, optimizer, loss_function, loader, device, labels, log_every_
 
 
     print("Evaluation Loss: ", running_loss)
-    print("Classification report after epoch:")
-    print(f1_score(all_true_labels, all_predictions, average='micro'))
+    # print("Classification report after epoch:")
+    print(f"F1 Score = {f1_score(all_true_labels, all_predictions, average='micro')}")
     # print(classification_report(all_true_labels, all_predictions, labels=labels))
 
     return loss_history, running_loss_history

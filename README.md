@@ -11,22 +11,18 @@ You will need the model weights for the english trained biLSTM.
 It can be downloaded here. 
 Place it into the weights directory.
 
+You only need the first 3 files plus the gensim word2vec to test the final model.
 
-weights for english bilstm - weight directory
+| file                             | link                                                                               | dir     |
+|----------------------------------|------------------------------------------------------------------------------------|---------|
+| english bilstm model weights     | https://drive.google.com/file/d/1Hq8Wf7Zm2Gtd8OSI4Y7wzcWFAsmtpT-x/view?usp=sharing | weights |
+| translation matrix weights       | https://drive.google.com/file/d/1bvXPqwgNTYEYN8ZwSOpvYJB6TcfHkEaR/view?usp=sharing | weights |
+| chinese word embeddings          | https://drive.google.com/file/d/1mmCxVJmNn1anONrPS1fEKNSdmIgNt5K_/view?usp=sharing | weights |
+| translation matrix training data | https://drive.google.com/file/d/1kNQy5nK0fx4Q2XKPFqSW9IoJLGIjj0Nz/view?usp=sharing | data    |
+|                                  | https://drive.google.com/file/d/1xYiEFReVamLyepzdFDc6IiSOqn5aJ-xq/view?usp=sharing | data    |
+|                                  | https://drive.google.com/file/d/1NyBxGnVw3fPv6M84yMIzpoEg9bhP_K7Z/view?usp=sharing | data    |
+|                                  |                                                                                    |         |
 
-https://drive.google.com/file/d/1Hq8Wf7Zm2Gtd8OSI4Y7wzcWFAsmtpT-x/view?usp=sharing
-
-weights for chinese word embeddings - weight directory
-
-https://drive.google.com/file/d/1mmCxVJmNn1anONrPS1fEKNSdmIgNt5K_/view?usp=sharing
-
-training data for translation matrix - data directory
-
-https://drive.google.com/file/d/1kNQy5nK0fx4Q2XKPFqSW9IoJLGIjj0Nz/view?usp=sharing
-
-https://drive.google.com/file/d/1xYiEFReVamLyepzdFDc6IiSOqn5aJ-xq/view?usp=sharing
-
-https://drive.google.com/file/d/1NyBxGnVw3fPv6M84yMIzpoEg9bhP_K7Z/view?usp=sharing
 
 Each model can be ran independently. 
 
