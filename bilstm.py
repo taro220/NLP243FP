@@ -37,7 +37,7 @@ DATASET = 'movies_even_split.csv'
 weight_dir = os.path.join(os.getcwd(),'weights')
 dir_path = os.path.join(os.getcwd(), 'Data')
 language_path = os.path.join(dir_path, 'English_Treebank')
-dataset_path = os.path.join(language_path, DATASET)
+dataset_path = os.path.join(dir_path, DATASET)
 weights_path = os.path.join(weight_dir, 'word2vec-google-news-300.gz')
 
 dataset_df = pd.read_csv(dataset_path)
