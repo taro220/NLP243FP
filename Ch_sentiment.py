@@ -1,8 +1,11 @@
 import os
 import tensorflow as tf
+# import tensorflow.compat.v1 as tf
+# tf.disable_v2_behavior()
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
+# gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
+gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.4)
 
 # sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
 # gpuConfig = tf.ConfigProto()
@@ -13,8 +16,8 @@ import pandas as pd
 import csv
 pos_path = "Data/jd_xiaomi9_pos.csv"
 neg_path = "Data/jd_xiaomi9_neg.csv"
-pos_file = open(pos_path)
-neg_file = open(neg_path)
+pos_file = open(pos_path, encoding='GBK')
+neg_file = open(neg_path, encoding='GBK')
 pos_reader_lines = csv.reader(pos_file)
 neg_reader_lines = csv.reader(neg_file)
 # print(pos_reader_lines)
@@ -54,7 +57,7 @@ import bz2
 # 请将下载的词向量压缩包放置在根目录 embeddings 文件夹里
 # 解压词向量, 有可能需要等待1-2分钟
 
-with open("Data/sgns.zhihu.bigram", 'wb') as new_file, open("Data/sgns.zhihu.bigram.bz2", 'rb') as file:
+with open("weights/sgns.zhihu.bigram", 'wb') as new_file, open("weights/sgns.zhihu.bigram.bz2", 'rb') as file:
     decompressor = bz2.BZ2Decompressor()
     for data in iter(lambda : file.read(100 * 1024), b''):
         new_file.write(decompressor.decompress(data))
@@ -64,6 +67,7 @@ cn_model = KeyedVectors.load_word2vec_format('Data/sgns.zhihu.bigram', binary=Fa
 
 # 由此可见每一个词都对应一个长度为300的向量
 embedding_dim = cn_model['深圳'].shape[0]
+print(embedding_dim)
 #print('词向量的长度为{}'.format(embedding_dim))
 #print(cn_model['深圳'])
 
@@ -73,8 +77,9 @@ from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, GRU, Embedding, LSTM, Bidirectional
 from tensorflow.python.keras.preprocessing.text import Tokenizer
 from tensorflow.python.keras.preprocessing.sequence import pad_sequences
-from tensorflow.python.keras.optimizers import RMSprop
-from tensorflow.python.keras.optimizers import Adam
+# from tensorflow.python.keras.optimizers import RMSprop
+
+# from tensorflow.python.keras.optimizers import Adam
 from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard, ReduceLROnPlateau
 
 # 进行分词和tokenize
@@ -183,7 +188,7 @@ model.add(LSTM(units=16, return_sequences=False))
 
 model.add(Dense(1, activation='sigmoid'))
 # 我们使用adam以0.001的learning rate进行优化
-optimizer = Adam(lr=1e-3)
+optimizer = tf.optimizers.Adam(lr=1e-3)
 
 #model.summary()
 
@@ -253,29 +258,29 @@ def predict_sentiment(text):
     else:
         print('是一例负面评价','output=%.2f'%coef)
 
-#predict_sentiment('品控不好，还没到一个月就坏了')
+predict_sentiment('品控不好，还没到一个月就坏了')
 
-# y_pred = model.predict(X_test)
-# y_pred = y_pred.T[0]
-# y_pred = [1 if p>= 0.5 else 0 for p in y_pred]
-# y_pred = np.array(y_pred)
-# y_actual = np.array(y_test)
-# misclassified = np.where( y_pred != y_actual )[0]
-#
-# # 输出所有错误分类的索引
-# len(misclassified)
-# print(len(X_test))
-#
-# idx=101
-# print(reverse_tokens(X_test[idx]))
-# print('预测的分类', y_pred[idx])
-# print('实际的分类', y_actual[idx])
-#
-# print(misclassified)
-#
-# predict_sentiment('手机用起来很舒服，外观造型漂亮，很流畅，屏幕很清晰')
+y_pred = model.predict(X_test)
+y_pred = y_pred.T[0]
+y_pred = [1 if p>= 0.5 else 0 for p in y_pred]
+y_pred = np.array(y_pred)
+y_actual = np.array(y_test)
+misclassified = np.where( y_pred != y_actual )[0]
 
-# jqnr = input()
-# while jqnr != '' :
-#     predict_sentiment(jqnr)
-#     jqnr = input()
+# 输出所有错误分类的索引
+len(misclassified)
+print(len(X_test))
+
+idx=101
+print(reverse_tokens(X_test[idx]))
+print('预测的分类', y_pred[idx])
+print('实际的分类', y_actual[idx])
+
+print(misclassified)
+
+predict_sentiment('手机用起来很舒服，外观造型漂亮，很流畅，屏幕很清晰')
+
+jqnr = input()
+while jqnr != '' :
+    predict_sentiment(jqnr)
+    jqnr = input()

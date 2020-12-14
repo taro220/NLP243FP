@@ -11,7 +11,7 @@ from gensim.test.utils import datapath
 
 import pandas as pd
 
-from preprocessing import W2VSequencer, tokzenize, TaggerDataset, prepare_batch
+from preprocessing import W2VSequencer, tokzenize, TaggerDataset, prepare_batch, map_sentiment
 from bilstm_model import BiLSTMClassifier, run_training
 
 """
@@ -19,7 +19,7 @@ from bilstm_model import BiLSTMClassifier, run_training
 """
 BATCH_SIZE = 64
 RANDOM_STATE = 17
-hidden_size = 100
+hidden_size = 300
 output_size = 1
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -34,11 +34,11 @@ DATASET = 'movies_even_split.csv'
 # DATASET = 'Movies_and_TV_small.csv'
 # DATASET = 'Movies_and_TV_small_mapped.csv'
 
-
+weight_dir = os.path.join(os.getcwd(),'weights')
 dir_path = os.path.join(os.getcwd(), 'Data')
 language_path = os.path.join(dir_path, 'English_Treebank')
 dataset_path = os.path.join(language_path, DATASET)
-weights_path = os.path.join(dir_path, 'word2vec-google-news-300.gz')
+weights_path = os.path.join(weight_dir, 'word2vec-google-news-300.gz')
 
 dataset_df = pd.read_csv(dataset_path)
 
@@ -47,8 +47,11 @@ Extra Dataset testing code
 """
 # dataset_df = pd.read_json(dataset_path, lines=True)
 # dataset_df['overall'] = dataset_df['overall'].apply(map_sentiment)
-# sample_group = dataset_df.groupby('overall').sample(n=25000, random_state=1)
-# sample_group[['overall', 'reviewText']].to_csv(os.path.join(language_path, 'movies_even_split.csv'))
+# # print(dataset_df.shape)
+# dataset_df.dropna(subset=['overall'], inplace=True)
+# print(dataset_df[dataset_df['overall'] == 0].shape)
+# sample_group = dataset_df.groupby('overall').sample(n=350000, random_state=17)
+# sample_group[['overall', 'reviewText']].to_csv(os.path.join(language_path, 'movies_even_split2.csv'))
 
 # model = Word2Vec(sentences=dataset_df['reviewText'], window=5, min_count=1, workers=4)
 # model.save('gensim.model')
@@ -65,6 +68,8 @@ Prepare Dataset
 """
 dataset_df.dropna(inplace=True)
 dataset_df = tokzenize(dataset_df)
+print(dataset_df.shape)
+
 
 train_X, val_X, train_y, val_y = train_test_split(dataset_df['tokenized'], dataset_df['overall'], random_state=RANDOM_STATE,
                                                   stratify=dataset_df['overall'], test_size=0.3)

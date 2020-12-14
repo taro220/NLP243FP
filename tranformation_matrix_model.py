@@ -28,9 +28,10 @@ class linearRegression(torch.nn.Module):
         return out
 
 from trans import transform_w, tokenizer, get_trans, translate
+weight_dir = os.path.join(os.getcwd(),'weights')
 data_dir = os.path.join(os.getcwd(),'Data')
-cn_embeddings = os.path.join(data_dir, 'sgns.zhihu.bigram')
-en_embeddings = os.path.join(data_dir, 'word2vec-google-news-300.gz')
+cn_embeddings = os.path.join(weight_dir, 'sgns.zhihu.bigram')
+en_embeddings = os.path.join(weight_dir, 'word2vec-google-news-300.gz')
 training_datapath = os.path.join(data_dir, 'transformation_training.csv')
 pickle_path = os.path.join(data_dir, 'embedded_matrix_train.pkl')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -134,7 +135,7 @@ def train(train_loader, test_loader):
     loss_history = []
     running_loss = 0.
     running_loss_history = []
-    for _ in tqdm(range(100)):
+    for _ in tqdm(range(10)):
         model.train()
         for i, batch in enumerate(train_loader):
             optimizer.zero_grad()
@@ -159,4 +160,4 @@ def train(train_loader, test_loader):
 
 
 train(train_loader, test_loader)
-torch.save(model, os.path.join(data_dir,'transition.model'))
+torch.save(model, os.path.join(data_dir,'transition_test.model'))

@@ -13,12 +13,14 @@ from trans import tokenizer
 from linear_regression_model import linearRegression #Dont remove this line
 
 data_dir = os.path.join(os.getcwd(),'Data')
-cn_embeddings = os.path.join(data_dir, 'sgns.zhihu.bigram')
-en_embeddings = os.path.join(data_dir, 'word2vec-google-news-300.gz')
+weight_dir = os.path.join(os.getcwd(),'weights')
+cn_embeddings = os.path.join(weight_dir, 'sgns.zhihu.bigram')
+en_embeddings = os.path.join(weight_dir, 'word2vec-google-news-300.gz')
 cn_test1 = os.path.join(data_dir, 'jd_xiaomi9_neg.csv')
 cn_test2 = os.path.join(data_dir, 'jd_xiaomi9_pos.csv')
+en_model_weights = os.path.join(weight_dir, 'en_model_state.pkl')
 
-transition_model_path = os.path.join(data_dir, 'transition2.model')
+transition_model_path = os.path.join(weight_dir, 'transition.model')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 """
@@ -60,7 +62,7 @@ transition_model.eval()
 model = BiLSTMClassifier(1, rnn_hidden_size=100,
                             w2v_weights=torch.FloatTensor(en_model.vectors))
 
-model.load_state_dict(torch.load('en_model_state.pkl'))
+model.load_state_dict(torch.load(en_model_weights))
 
 model.eval()
 model.to(device)

@@ -126,5 +126,5 @@ def run_training(model, optimizer, loss_function, train_loader, valid_loader, de
         train(model, optimizer, loss_function, train_loader, device, log_every_n=10)
         evaluate(model, optimizer, loss_function, valid_loader, device, labels, log_every_n=10)
 
-    torch.save(model,'en_model.pkl')
+    # torch.save(model,'en_model.pkl')
     torch.save(model.state_dict(), 'en_model_state.pkl')
